@@ -1,0 +1,178 @@
+<!doctype html>
+<head class="no-js" lang="sl">
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Human Operator App</title>
+	<meta name="description" content="Aplikacija za nadzorovanje komunikatorja">
+	<meta name="author" content="David Brvar">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		
+		/* normalizacija */
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			width: 100%;
+		}
+
+		.grid {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			flex-direction: row;
+			max-width: 750px;
+			margin: 0 auto;
+		}
+
+		.gumb {
+			height: 150px;
+			width: 150px;
+			margin: 25px;
+			text-align: center;
+			border-radius: 25px;
+			background-size: cover;
+			background-position: center;
+			line-height: 260px;
+			font-size: large;
+		}
+
+		.gumb#video {
+			background-image: url(video.png);
+		}
+		.gumb#neutral {
+			background-image: url(emo1.gif);
+		}
+		.gumb#vesel {
+			background-image: url(emo2.gif);
+		}
+		.gumb#navdusen {
+			background-image: url(emo3.gif);
+		}
+		.gumb#skepticen {
+			background-image: url(emo4.gif);
+		}
+		.gumb#zacuden {
+			background-image: url(emo5.gif);
+		}
+		.gumb.govor {
+			background-image: url(govor.png);
+		}
+
+	</style>
+</head>
+
+<body style="background-color: #1b1a1a;">
+	
+	<h3 style="color: white;" id="informationDisplay"></h3>
+
+	<div class="grid">
+		<button id="video" type="button" class="btn btn-primary gumb" onclick="doSend(0); activateDeactivate(this);">Poženi video</button>
+		<button id="vesel" type="button" class="btn btn-danger gumb" onclick="doSend(2); activateDeactivate(this);">Vesel</button>
+		<button type="button" class="btn btn-primary gumb govor" onclick="doSend(8); activateDeactivate(this);">Anketiraj</button>
+
+		<button id="zacuden" type="button" class="btn btn-danger gumb" onclick="doSend(5); activateDeactivate(this);">Začuden</button>
+		<button id="neutral" type="button" class="btn btn-warning gumb" onclick="doSend(1); activateDeactivate(this);">Nevtralen</button>
+		<button id="navdusen" type="button" class="btn btn-danger gumb" onclick="doSend(3); activateDeactivate(this);">Navdušen</button>
+
+		<button type="button" class="btn btn-success gumb govor" onclick="doSend(6); activateDeactivate(this);">Začni poskus</button>
+		<button id="skepticen" type="button" class="btn btn-danger gumb" onclick="doSend(4); activateDeactivate(this);">Skeptičen</button>
+		<button type="button" class="btn btn-success gumb govor" onclick="doSend(7); activateDeactivate(this);">Konec poskusa</button>
+	</div>
+	
+</body>
+
+<script>
+
+	var currentElement = null;
+	var currentPicturePath = null;
+	var websocket;
+	var informationDisplay = document.getElementById("informationDisplay");
+	init();
+
+	function init() {
+		var urlNaslov = "ws://212.235.187.137:80/";
+		doConnect(urlNaslov);
+	}
+
+	function doConnect(urlNaslov) {
+		websocket = new WebSocket(urlNaslov);
+		websocket.onopen = function(evt) {
+			onOpen(evt);
+		};
+		websocket.onclose = function(evt) {
+			onClose(evt);
+		};
+		websocket.onerror = function(evt) {
+			onError(evt);
+		};
+		/*websocket.onmessage = function(evt) {
+			onMessage(evt);
+		};*/
+	}
+
+	function onOpen(evt) {
+		informationDisplay.innerHTML = "Povezava odprta";
+	}
+
+	function onClose(evt) {
+		informationDisplay.innerHTML = "Povezava zaprta";
+	}
+
+	function onError(evt) {
+		websocket.close();
+		informationDisplay.innerHTML = "Napaka povezave";
+	}
+
+	/*function onMessage(evt) {
+		console.log("onMessage();");
+
+		var x = evt.data;
+
+		try {
+			var regex  = /[^-]*$/g;
+			x = x.match(regex);
+			x = x[0].split(" ");
+			if (x.length > 2) {
+				console.log("Prejeto sporocilo vsebovalo nepotrebne presledke... not good");
+			}
+			x = x[1];
+		} catch(err) {
+			console.log("Napaka formata prejetega sporocila:", err);
+		}
+
+		humanOperatorAction(x);
+	}*/
+
+	function doDisconnect() {
+		console.log("doDisconnect();");
+		websocket.close();
+	}
+
+	function doSend(msg) {
+		console.log("Posiljam sporocilo:", msg);
+		websocket.send(msg);
+	}
+
+	function activateDeactivate(htmlElement) {
+		if(htmlElement !== currentElement) {
+
+			if (currentElement !== null) {
+				currentElement.style.backgroundImage = null;
+				currentElement.style.backgroundImage = currentPicturePath;
+			}
+
+			// background slika
+			var cancer = htmlElement.currentStyle || window.getComputedStyle(htmlElement, false);
+			currentPicturePath = cancer.backgroundImage.slice(4, -1);
+
+			// html element
+			htmlElement.style.backgroundImage = "url('checkmark.png')";
+			currentElement = htmlElement;
+		}
+	}
+
+</script>
+</html>
