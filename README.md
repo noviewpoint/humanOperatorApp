@@ -1,2 +1,2 @@
 # humanOperatorApp
-Projekt po kreativni poti "Profil socialnih signalov uporabnika" - Spletna aplikacija človeškega upravitelja eksperimenta
+Projekt po kreativni poti "Profil socialnih signalov uporabnika" - Spletna aplikacija človeškega upravitelja komunikatorja
