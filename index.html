@@ -154,6 +154,17 @@
 	function doSend(msg) {
 		console.log("Posiljam sporocilo:", msg);
 		websocket.send(msg);
+
+		var xmlhttp = new XMLHttpRequest(); // new HttpRequest instance
+		xmlhttp.open("POST", "../pkpGoldRun/php/post_human_operator_action.php", true);
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		var msgToPhp = {
+			"message": msg,
+			"timestamp": Date.now()
+		};
+
+		console.log("Posiljam msg na '../pkpGoldRun/php/post_human_operator_action.php", msgToPhp);
+		xmlhttp.send(JSON.stringify(msgToPhp));
 	}
 
 	function activateDeactivate(htmlElement) {

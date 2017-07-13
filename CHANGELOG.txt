@@ -1,1 +1,4 @@
-Dodal vsebino projekta
+Dodal zapisovanje eventov v bazo
+
+Ob tem, ko se poslje WebSocket sporocilo, se izvede HTTP POST do PHP
+datoteke, ki je povezana z MongoDB.
