@@ -1,4 +1,3 @@
-Dodal zapisovanje eventov v bazo
+Dodal nova gumba
 
-Ob tem, ko se poslje WebSocket sporocilo, se izvede HTTP POST do PHP
-datoteke, ki je povezana z MongoDB.
+Dodal gumba dogodkov za "Gledal oglas" in "Preskocil oglas".

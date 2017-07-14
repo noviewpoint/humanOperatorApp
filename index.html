@@ -23,19 +23,19 @@
 			flex-wrap: wrap;
 			justify-content: space-between;
 			flex-direction: row;
-			max-width: 750px;
+			max-width: 500px;
 			margin: 0 auto;
 		}
 
 		.gumb {
-			height: 150px;
-			width: 150px;
+			height: 100px;
+			width: 100px;
 			margin: 25px;
 			text-align: center;
 			border-radius: 25px;
 			background-size: cover;
 			background-position: center;
-			line-height: 260px;
+			line-height: 220px;
 			font-size: large;
 		}
 
@@ -80,6 +80,9 @@
 		<button type="button" class="btn btn-success gumb govor" onclick="doSend(6); activateDeactivate(this);">Začni poskus</button>
 		<button id="skepticen" type="button" class="btn btn-danger gumb" onclick="doSend(4); activateDeactivate(this);">Skeptičen</button>
 		<button type="button" class="btn btn-success gumb govor" onclick="doSend(7); activateDeactivate(this);">Konec poskusa</button>
+
+		<button type="button" class="btn btn-info gumb" onclick="doSend(9); activateDeactivate(this);">Pogledal oglas</button>
+		<button type="button" class="btn btn-info gumb" onclick="doSend(10); activateDeactivate(this);">Preskočil oglas</button>
 	</div>
 	
 </body>
